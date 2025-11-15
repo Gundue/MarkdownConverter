@@ -3,15 +3,7 @@
 #include <cctype>
 #include <unordered_set>
 #include <iostream>
-
-enum class TokenType {
-    KEYWORD, IDENTIFIER, NUMBER, STRING, OPERATOR, WHITESPACE, UNKNOWN
-};
-
-struct Token {
-    TokenType type;
-    std::string value;
-};
+#include "Convertor.h"
 
 const std::unordered_set<std::string> KEYWORDS = {
     "for", "if", "else", "while",
@@ -114,32 +106,4 @@ std::string highlight(const std::vector<Token>& tokens) {
         }
     }
     return html;
-}
-
-int main() {
-    // raw-string 구분자를 CODE로 지정: 내부에 )" 가 있어도 안전
-    std::string code = R"CODE(for (auto& t : tokens) {
-        switch (t.type) {
-            case TokenType::KEYWORD:
-                html += "<span style='color: blue; font-weight:bold'>" + t.value + "</span>";
-                break;
-            case TokenType::NUMBER:
-                html += "<span style='color: red'>" + t.value + "</span>";
-                break;
-            case TokenType::STRING:
-                html += "<span style='color: green'>" + t.value + "</span>";
-                break;
-            case TokenType::OPERATOR:
-                html += "<span style='color: purple'>" + t.value + "</span>";
-                break;
-            default:
-                html += t.value;
-        }
-    })CODE";
-
-    auto tokens = lex(code);
-    std::string html = highlight(tokens);
-
-    std::cout << html << std::endl;
-    return 0;
 }
